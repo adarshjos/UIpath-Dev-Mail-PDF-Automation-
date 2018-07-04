@@ -1,0 +1,399 @@
+﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="Main" mva:VisualBasic.Settings="{x:Null}" sap2010:WorkflowViewState.IdRef="Main_1"
+ xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
+ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+ xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities"
+ xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger"
+ xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation"
+ xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation"
+ xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib"
+ xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib"
+ xmlns:sd="clr-namespace:System.Data;assembly=System.Data"
+ xmlns:sd1="clr-namespace:System.Drawing;assembly=System.Drawing"
+ xmlns:snm="clr-namespace:System.Net.Mail;assembly=System"
+ xmlns:ui="http://schemas.uipath.com/workflow/activities"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>System.Web.Mail</x:String>
+      <x:String>System.Xml.Serialization</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>UiPath.Core</AssemblyReference>
+      <AssemblyReference>UiPath.Core.Activities</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Web</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualStudio.Services.Common</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="scg:List(snm:MailMessage)" Name="messages" />
+      <Variable x:TypeArguments="x:String" Name="skillslist" />
+      <Variable x:TypeArguments="sd:DataTable" Name="dtskills" />
+    </Sequence.Variables>
+    <ui:GetIMAPMailMessages TimeoutMS="{x:Null}" DeleteMessages="False" DisplayName="Get IMAP mail messages" Email="uipathdev@gmail.com" EnableSSL="True" sap2010:WorkflowViewState.IdRef="GetIMAPMailMessages_1" MailFolder="Inbox" MarkAsRead="True" Messages="[messages]" OnlyUnreadMessages="True" Password="adarsh@97" Port="993" SecureConnection="Auto" Server="imap.gmail.com" Top="10" />
+    <ui:ForEach x:TypeArguments="snm:MailMessage" DisplayName="For each" sap2010:WorkflowViewState.IdRef="ForEach`1_2" Values="[messages]">
+      <ui:ForEach.Body>
+        <ActivityAction x:TypeArguments="snm:MailMessage">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="snm:MailMessage" Name="mail" />
+          </ActivityAction.Argument>
+          <Sequence DisplayName="Body" sap2010:WorkflowViewState.IdRef="Sequence_2">
+            <If Condition="[mail.Subject.Contains(&quot;RESUME&quot;) OR mail.Subject.Contains(&quot;Resume&quot;) OR mail.Subject.Contains(&quot;resume&quot;)]" sap2010:WorkflowViewState.IdRef="If_1">
+              <If.Then>
+                <Sequence sap2010:WorkflowViewState.IdRef="Sequence_3">
+                  <Sequence.Variables>
+                    <Variable x:TypeArguments="x:String" Name="applicant" />
+                    <Variable x:TypeArguments="x:String" Name="attachname" />
+                  </Sequence.Variables>
+                  <Assign sap2010:WorkflowViewState.IdRef="Assign_1">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="x:String">[applicant]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="x:String">[mail.From.ToString.Split("""".ToCharArray)(1)]</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                  <If Condition="[mail.Attachments.Any]" sap2010:WorkflowViewState.IdRef="If_2">
+                    <If.Then>
+                      <Sequence sap2010:WorkflowViewState.IdRef="Sequence_4">
+                        <Sequence.Variables>
+                          <Variable x:TypeArguments="x:String" Name="applmailid" />
+                          <Variable x:TypeArguments="sd:DataTable" Name="newDT" />
+                          <Variable x:TypeArguments="x:String" Name="pdfread" />
+                        </Sequence.Variables>
+                        <ui:SaveMailAttachments Attachments="{x:Null}" DisplayName="Save Attachments" FolderPath="[&quot;Attachments/&quot;+applicant]" sap2010:WorkflowViewState.IdRef="SaveMailAttachments_2" Message="[mail]" />
+                        <Assign sap2010:WorkflowViewState.IdRef="Assign_2">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:String">[attachname]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:String">[CType(mail.Attachments.FirstOrDefault, Attachment).Name]</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <Assign sap2010:WorkflowViewState.IdRef="Assign_3">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:String">[applmailid]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:String">[mail.From.ToString.Split("&lt;&gt;".ToCharArray)(1)]</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <ui:CommentOut DisplayName="Comment out" sap2010:WorkflowViewState.IdRef="CommentOut_3">
+                          <ui:CommentOut.Body>
+                            <Sequence DisplayName="Ignored Activities" sap2010:WorkflowViewState.IdRef="Sequence_17">
+                              <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" Buttons="Ok" DisplayName="Message box" sap2010:WorkflowViewState.IdRef="MessageBox_5" Text="[applmailid]" TopMost="True" />
+                            </Sequence>
+                          </ui:CommentOut.Body>
+                        </ui:CommentOut>
+                        <ui:MoveFile ContinueOnError="{x:Null}" Destination="[&quot;Attachments\&quot;+applicant+&quot;\&quot;+applicant+&quot;.pdf&quot;]" DisplayName="Move file" sap2010:WorkflowViewState.IdRef="MoveFile_1" Overwrite="False" Path="[&quot;Attachments\&quot;+applicant+&quot;\&quot;+attachname]" />
+                        <Sequence DisplayName="pdf reading" sap2010:WorkflowViewState.IdRef="Sequence_9">
+                          <ui:ReadPDFWithOCR DisplayName="Read PDF with OCR" FileName="[&quot;Attachments\&quot;+applicant+&quot;\&quot;+applicant+&quot;.pdf&quot;]" sap2010:WorkflowViewState.IdRef="ReadPDFWithOCR_1" Range="All" Text="[pdfread]">
+                            <ui:ReadPDFWithOCR.OCREngine>
+                              <ActivityFunc x:TypeArguments="sd1:Image, scg:IEnumerable(scg:KeyValuePair(sd1:Rectangle, x:String))">
+                                <ActivityFunc.Argument>
+                                  <DelegateInArgument x:TypeArguments="sd1:Image" Name="Image" />
+                                </ActivityFunc.Argument>
+                                <ui:GoogleOCR FilterRegion="{x:Null}" Text="{x:Null}" AllowedCharacters="" DeniedCharacters="" DisplayName="Google OCR" ExtractWords="False" sap2010:WorkflowViewState.IdRef="GoogleOCR_1" Image="[Image]" Invert="False" Language="eng" Profile="Legacy" Scale="2" />
+                              </ActivityFunc>
+                            </ui:ReadPDFWithOCR.OCREngine>
+                          </ui:ReadPDFWithOCR>
+                          <ui:CommentOut DisplayName="Comment out" sap2010:WorkflowViewState.IdRef="CommentOut_4">
+                            <ui:CommentOut.Body>
+                              <Sequence DisplayName="Ignored Activities" sap2010:WorkflowViewState.IdRef="Sequence_18">
+                                <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" Buttons="Ok" DisplayName="Message box" sap2010:WorkflowViewState.IdRef="MessageBox_6" Text="[pdfread.ToLower()]" TopMost="True" />
+                              </Sequence>
+                            </ui:CommentOut.Body>
+                          </ui:CommentOut>
+                        </Sequence>
+                        <ui:ExcelApplicationScope Password="{x:Null}" DisplayName="skillsdatable " sap2010:WorkflowViewState.IdRef="ExcelApplicationScope_3" WorkbookPath="skillset.xlsx">
+                          <ui:ExcelApplicationScope.Body>
+                            <ActivityAction x:TypeArguments="ui:WorkbookApplication">
+                              <ActivityAction.Argument>
+                                <DelegateInArgument x:TypeArguments="ui:WorkbookApplication" Name="ExcelWorkbookScope" />
+                              </ActivityAction.Argument>
+                              <Sequence DisplayName="Do" sap2010:WorkflowViewState.IdRef="Sequence_11">
+                                <ui:ExcelReadRange AddHeaders="True" DataTable="[dtskills]" DisplayName="Read Range" sap2010:WorkflowViewState.IdRef="ExcelReadRange_1" SheetName="Sheet1">
+                                  <ui:ExcelReadRange.Range>
+                                    <InArgument x:TypeArguments="x:String">
+                                      <Literal x:TypeArguments="x:String" Value="" />
+                                    </InArgument>
+                                  </ui:ExcelReadRange.Range>
+                                </ui:ExcelReadRange>
+                              </Sequence>
+                            </ActivityAction>
+                          </ui:ExcelApplicationScope.Body>
+                        </ui:ExcelApplicationScope>
+                        <Sequence DisplayName="skillchecking" sap2010:WorkflowViewState.IdRef="Sequence_13">
+                          <Assign sap2010:WorkflowViewState.IdRef="Assign_4">
+                            <Assign.To>
+                              <OutArgument x:TypeArguments="x:String">[skillslist]</OutArgument>
+                            </Assign.To>
+                            <Assign.Value>
+                              <InArgument x:TypeArguments="x:String">
+                                <Literal x:TypeArguments="x:String" Value="" />
+                              </InArgument>
+                            </Assign.Value>
+                          </Assign>
+                          <ui:ForEach x:TypeArguments="sd:DataRow" DisplayName="For each" sap2010:WorkflowViewState.IdRef="ForEach`1_6" Values="[dtskills.Rows]">
+                            <ui:ForEach.Body>
+                              <ActivityAction x:TypeArguments="sd:DataRow">
+                                <ActivityAction.Argument>
+                                  <DelegateInArgument x:TypeArguments="sd:DataRow" Name="row" />
+                                </ActivityAction.Argument>
+                                <Sequence DisplayName="Body" sap2010:WorkflowViewState.IdRef="Sequence_16">
+                                  <ui:ForEach x:TypeArguments="x:Object" DisplayName="For each" sap2010:WorkflowViewState.IdRef="ForEach`1_7" Values="[dtskills.Columns]">
+                                    <ui:ForEach.Body>
+                                      <ActivityAction x:TypeArguments="x:Object">
+                                        <ActivityAction.Argument>
+                                          <DelegateInArgument x:TypeArguments="x:Object" Name="col" />
+                                        </ActivityAction.Argument>
+                                        <Sequence DisplayName="Body" sap2010:WorkflowViewState.IdRef="Sequence_15">
+                                          <ui:CommentOut DisplayName="Comment out" sap2010:WorkflowViewState.IdRef="CommentOut_5">
+                                            <ui:CommentOut.Body>
+                                              <Sequence DisplayName="Ignored Activities" sap2010:WorkflowViewState.IdRef="Sequence_19">
+                                                <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" Buttons="Ok" DisplayName="Message box" sap2010:WorkflowViewState.IdRef="MessageBox_11" Text="[row(col.ToString).ToString]" TopMost="True" />
+                                              </Sequence>
+                                            </ui:CommentOut.Body>
+                                          </ui:CommentOut>
+                                          <If Condition="[pdfread.ToLower.Contains(row(col.ToString).ToString.ToLower)]" sap2010:WorkflowViewState.IdRef="If_3">
+                                            <If.Then>
+                                              <Assign sap2010:WorkflowViewState.IdRef="Assign_5">
+                                                <Assign.To>
+                                                  <OutArgument x:TypeArguments="x:String">[skillslist]</OutArgument>
+                                                </Assign.To>
+                                                <Assign.Value>
+                                                  <InArgument x:TypeArguments="x:String">[skillslist+Environment.newline+row(col.ToString).ToString]</InArgument>
+                                                </Assign.Value>
+                                              </Assign>
+                                            </If.Then>
+                                          </If>
+                                        </Sequence>
+                                      </ActivityAction>
+                                    </ui:ForEach.Body>
+                                  </ui:ForEach>
+                                </Sequence>
+                              </ActivityAction>
+                            </ui:ForEach.Body>
+                          </ui:ForEach>
+                          <ui:CommentOut DisplayName="Comment out" sap2010:WorkflowViewState.IdRef="CommentOut_6">
+                            <ui:CommentOut.Body>
+                              <Sequence DisplayName="Ignored Activities" sap2010:WorkflowViewState.IdRef="Sequence_20">
+                                <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" Buttons="Ok" DisplayName="Message box" sap2010:WorkflowViewState.IdRef="MessageBox_9" Text="[skillslist]" TopMost="True" />
+                              </Sequence>
+                            </ui:CommentOut.Body>
+                          </ui:CommentOut>
+                        </Sequence>
+                        <ui:SendMail Bcc="{x:Null}" Cc="{x:Null}" MailMessage="{x:Null}" TimeoutMS="{x:Null}" Body="[&quot;Hi &quot;+applicant +Environment.NewLine+&quot;  We have received your resume and thank you for your interest in our company.We will get back to you soon.&quot;]" DisplayName="Send SMTP Mail Message" Email="uipathdev@gmail.com" EnableSSL="True" From="uipathdev@gmail.com" sap2010:WorkflowViewState.IdRef="SendMail_1" IsBodyHtml="False" Name="UIpath DevAJ" Password="adarsh@97" Port="587" SecureConnection="Auto" Server="smtp.gmail.com" Subject="Resume" To="[mail.From.ToString]">
+                          <ui:SendMail.Files>
+                            <scg:List x:TypeArguments="InArgument(x:String)" Capacity="0" />
+                          </ui:SendMail.Files>
+                        </ui:SendMail>
+                        <ui:BuildDataTable DataTable="[newDT]" DisplayName="Build data table" sap2010:WorkflowViewState.IdRef="BuildDataTable_1" TableInfo="&lt;NewDataSet&gt;&#xD;&#xA;  &lt;xs:schema id=&quot;NewDataSet&quot; xmlns=&quot;&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:msdata=&quot;urn:schemas-microsoft-com:xml-msdata&quot;&gt;&#xD;&#xA;    &lt;xs:element name=&quot;NewDataSet&quot; msdata:IsDataSet=&quot;true&quot; msdata:MainDataTable=&quot;TableName&quot; msdata:UseCurrentLocale=&quot;true&quot;&gt;&#xD;&#xA;      &lt;xs:complexType&gt;&#xD;&#xA;        &lt;xs:choice minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;&gt;&#xD;&#xA;          &lt;xs:element name=&quot;TableName&quot;&gt;&#xD;&#xA;            &lt;xs:complexType&gt;&#xD;&#xA;              &lt;xs:sequence&gt;&#xD;&#xA;                &lt;xs:element name=&quot;NAME&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;MAIL_x0020_ID&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;TIME_x0020_OF_x0020_MAIL&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;SKILLS&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;              &lt;/xs:sequence&gt;&#xD;&#xA;            &lt;/xs:complexType&gt;&#xD;&#xA;          &lt;/xs:element&gt;&#xD;&#xA;        &lt;/xs:choice&gt;&#xD;&#xA;      &lt;/xs:complexType&gt;&#xD;&#xA;    &lt;/xs:element&gt;&#xD;&#xA;  &lt;/xs:schema&gt;&#xD;&#xA;&lt;/NewDataSet&gt;" />
+                        <ui:AddDataRow DataRow="{x:Null}" ArrayRow="[{applicant,applmailid,mail.Headers(&quot;Date&quot;),skillslist}]" DataTable="[newDT]" DisplayName="Add data row" sap2010:WorkflowViewState.IdRef="AddDataRow_1" />
+                        <ui:ExcelApplicationScope Password="{x:Null}" DisplayName="Excel application scope" sap2010:WorkflowViewState.IdRef="ExcelApplicationScope_2" WorkbookPath="log_of_mail.xlsx">
+                          <ui:ExcelApplicationScope.Body>
+                            <ActivityAction x:TypeArguments="ui:WorkbookApplication">
+                              <ActivityAction.Argument>
+                                <DelegateInArgument x:TypeArguments="ui:WorkbookApplication" Name="ExcelWorkbookScope" />
+                              </ActivityAction.Argument>
+                              <Sequence DisplayName="Do" sap2010:WorkflowViewState.IdRef="Sequence_8">
+                                <ui:ExcelAppendRange DataTable="[newDT]" DisplayName="Append Range" sap2010:WorkflowViewState.IdRef="ExcelAppendRange_1" SheetName="Sheet1" />
+                              </Sequence>
+                            </ActivityAction>
+                          </ui:ExcelApplicationScope.Body>
+                        </ui:ExcelApplicationScope>
+                      </Sequence>
+                    </If.Then>
+                    <If.Else>
+                      <ui:SendMail Bcc="{x:Null}" Cc="{x:Null}" MailMessage="{x:Null}" TimeoutMS="{x:Null}" Body="[&quot;Hi &quot;+applicant +Environment.NewLine+&quot;  Thank you for your interest in our company.The mail you have send doesn't contain any attachments. Kindly try sending mail with attached resume.&quot;]" DisplayName="Send SMTP Mail Message" Email="uipathdev@gmail.com" EnableSSL="True" From="uipathdev@gmail.com" sap2010:WorkflowViewState.IdRef="SendMail_2" IsBodyHtml="False" Name="UIpath DevAJ" Password="adarsh@97" Port="587" SecureConnection="Auto" Server="smtp.gmail.com" Subject="Resume" To="[mail.From.ToString]">
+                        <ui:SendMail.Files>
+                          <scg:List x:TypeArguments="InArgument(x:String)" Capacity="0" />
+                        </ui:SendMail.Files>
+                      </ui:SendMail>
+                    </If.Else>
+                  </If>
+                </Sequence>
+              </If.Then>
+            </If>
+          </Sequence>
+        </ActivityAction>
+      </ui:ForEach.Body>
+    </ui:ForEach>
+    <sads:DebugSymbol.Symbol>dzVDOlxVc2Vyc1xBZGFyc2ggSm9zZXBoXERvY3VtZW50c1xVaVBhdGhcRGV2XE1haW4ueGFtbGNDA4cCDgIBAUkFSYMDAgF7SgWFAhICAQJJ/AJJgAMDAYMBSXRJiQEDAYIBScICSccCAwGBAUmBAkmNAgIBf0nnAkn3AgIBfkmxAkm8AgIBfUneAUnlAQIBfEp/SosBAgF5UAuCAhYCAQNRDYECEgIBBFEbUaIBAgEFUxH/ARwCAQlYE18cAgF0YBP+ARgCAQpdPl1tAgF3Wj9aSgIBdWAhYDkCAQtiF/UBIgIBF/gBF/wBJQIBDGgZaOQBAgFvaRlwIgIBa3EZeCICAWZ5GX8pAgFlgAEZgAG7AgIBXoEBGZMBJAIBUJQBGaUBNAIBSKYBGeEBJAIBNeIBGeYBJwIBKucBGecB3gwCASfoARnoAekBAgEf6QEZ9AE0AgEY+AHpBPgB/wQCARX4AXL4AcMCAgEU+AHdBPgB5QQCARP4AZsD+AGwAwIBEvgB7wL4AYQDAgER+AGfBPgBpAQCARD4AcQE+AHUBAIBD/gBjgT4AZkEAgEO+AH2A/gBhAQCAQ1o2QFo4QECAXJocmiYAQIBcG5Ebn0CAW5rRWtRAgFsdkR2eQIBaXNFc1ECAWeAAU2AAZwBAgFigAH5AYABuAICAV+CARuLAS8CAVKMARuSASsCAVGUAasBlAG6AQIBT5oBH6IBKgIBSacBG7ABJAIBRLEBG9kBKAIBN9oBG+ABKwIBNuIBxATiAdoEAgEz4gF04gGeAgIBMuIBuATiAcAEAgEx4gH2AuIBiwMCATDiAcoC4gHfAgIBL+IB+gPiAf8DAgEu4gGfBOIBrwQCAS3iAekD4gH0AwIBLOIB0QPiAd8DAgEr5wE25wE/AgEo6AGTAegBnAECASXoAUToAYgBAgEg6QG0AekBxgECAR7vAR/xASoCARmCAesBggH2AQIBXIIBV4IBpgECAVmCAeABggHlAQIBWIgBIYgBpwICAVObASGhATUCAUqtASGtAVACAUepAUepAVMCAUWxAZABsQGhAQIBQ7cBIdYBLAIBOPABIfABrwECARqIAaECiAGkAgIBV4gB4gGIAesBAgFViAGEAogBiQICAVSbAVCbAVwCAU2eASeeAVYCAUybAbMBmwG7AQIBS7gBI9UBMAIBOfABQPABSQIBHPABpAHwAawBAgEbuAGWAbgBqgECAUK+ASnSATQCATq/ASvFATsCAUHGASvRATACATvGATnGAXkCATzIAS/PATgCAT3NAVrNAZUBAgFAygFbygFnAgE+</sads:DebugSymbol.Symbol>
+  </Sequence>
+  <sap2010:WorkflowViewState.ViewStateManager>
+    <sap2010:ViewStateManager>
+      <sap2010:ViewStateData Id="GetIMAPMailMessages_1" sap:VirtualizedContainerService.HintSize="1108.8,22.4" />
+      <sap2010:ViewStateData Id="Assign_1" sap:VirtualizedContainerService.HintSize="923.2,60.8" />
+      <sap2010:ViewStateData Id="SaveMailAttachments_2" sap:VirtualizedContainerService.HintSize="563.2,88" />
+      <sap2010:ViewStateData Id="Assign_2" sap:VirtualizedContainerService.HintSize="563.2,60.8" />
+      <sap2010:ViewStateData Id="Assign_3" sap:VirtualizedContainerService.HintSize="563.2,60.8" />
+      <sap2010:ViewStateData Id="MessageBox_5" sap:VirtualizedContainerService.HintSize="313.6,59.2" />
+      <sap2010:ViewStateData Id="Sequence_17" sap:VirtualizedContainerService.HintSize="336,184">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="CommentOut_3" sap:VirtualizedContainerService.HintSize="563.2,262.4" />
+      <sap2010:ViewStateData Id="MoveFile_1" sap:VirtualizedContainerService.HintSize="563.2,22.4" />
+      <sap2010:ViewStateData Id="GoogleOCR_1" sap:VirtualizedContainerService.HintSize="200,22.4" />
+      <sap2010:ViewStateData Id="ReadPDFWithOCR_1" sap:VirtualizedContainerService.HintSize="416,132.8" />
+      <sap2010:ViewStateData Id="MessageBox_6" sap:VirtualizedContainerService.HintSize="313.6,59.2" />
+      <sap2010:ViewStateData Id="Sequence_18" sap:VirtualizedContainerService.HintSize="336,184">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="CommentOut_4" sap:VirtualizedContainerService.HintSize="416,262.4" />
+      <sap2010:ViewStateData Id="Sequence_9" sap:VirtualizedContainerService.HintSize="563.2,560">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="ExcelReadRange_1" sap:VirtualizedContainerService.HintSize="313.6,59.2" />
+      <sap2010:ViewStateData Id="Sequence_11" sap:VirtualizedContainerService.HintSize="336,184">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="ExcelApplicationScope_3" sap:VirtualizedContainerService.HintSize="563.2,292.8" />
+      <sap2010:ViewStateData Id="Assign_4" sap:VirtualizedContainerService.HintSize="540.8,60.8" />
+      <sap2010:ViewStateData Id="MessageBox_11" sap:VirtualizedContainerService.HintSize="313.6,59.2" />
+      <sap2010:ViewStateData Id="Sequence_19" sap:VirtualizedContainerService.HintSize="336,184">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="CommentOut_5" sap:VirtualizedContainerService.HintSize="464,262.4" />
+      <sap2010:ViewStateData Id="Assign_5" sap:VirtualizedContainerService.HintSize="243.2,60.8" />
+      <sap2010:ViewStateData Id="If_3" sap:VirtualizedContainerService.HintSize="464,211.2" />
+      <sap2010:ViewStateData Id="Sequence_15" sap:VirtualizedContainerService.HintSize="486.4,638.4">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="ForEach`1_7" sap:VirtualizedContainerService.HintSize="502.4,772.8" />
+      <sap2010:ViewStateData Id="Sequence_16" sap:VirtualizedContainerService.HintSize="524.8,897.6">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="ForEach`1_6" sap:VirtualizedContainerService.HintSize="540.8,1032" />
+      <sap2010:ViewStateData Id="MessageBox_9" sap:VirtualizedContainerService.HintSize="313.6,59.2" />
+      <sap2010:ViewStateData Id="Sequence_20" sap:VirtualizedContainerService.HintSize="336,184">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="CommentOut_6" sap:VirtualizedContainerService.HintSize="540.8,262.4" />
+      <sap2010:ViewStateData Id="Sequence_13" sap:VirtualizedContainerService.HintSize="563.2,1560">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="SendMail_1" sap:VirtualizedContainerService.HintSize="563.2,145.6" />
+      <sap2010:ViewStateData Id="BuildDataTable_1" sap:VirtualizedContainerService.HintSize="563.2,59.2" />
+      <sap2010:ViewStateData Id="AddDataRow_1" sap:VirtualizedContainerService.HintSize="563.2,22.4" />
+      <sap2010:ViewStateData Id="ExcelAppendRange_1" sap:VirtualizedContainerService.HintSize="313.6,88" />
+      <sap2010:ViewStateData Id="Sequence_8" sap:VirtualizedContainerService.HintSize="336,212.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="ExcelApplicationScope_2" sap:VirtualizedContainerService.HintSize="563.2,321.6" />
+      <sap2010:ViewStateData Id="Sequence_4" sap:VirtualizedContainerService.HintSize="585.6,4020.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="SendMail_2" sap:VirtualizedContainerService.HintSize="313.6,145.6" />
+      <sap2010:ViewStateData Id="If_2" sap:VirtualizedContainerService.HintSize="923.2,4171.2" />
+      <sap2010:ViewStateData Id="Sequence_3" sap:VirtualizedContainerService.HintSize="945.6,4396.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_1" sap:VirtualizedContainerService.HintSize="1070.4,4547.2" />
+      <sap2010:ViewStateData Id="Sequence_2" sap:VirtualizedContainerService.HintSize="1092.8,4672">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="ForEach`1_2" sap:VirtualizedContainerService.HintSize="1108.8,4806.4" />
+      <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="1131.2,4993.6">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Main_1" sap:VirtualizedContainerService.HintSize="1171.2,5073.6" />
+    </sap2010:ViewStateManager>
+  </sap2010:WorkflowViewState.ViewStateManager>
+</Activity>
